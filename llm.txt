@@ -1,0 +1,11 @@
+This exercise was done with assistance from LLMs, namely Microsoft Copilot and ChatGPT, which provided significant assistance in coding and error correction.
+LLMs were used to produce the code faster, as it was faster to query the needed methods and libraries from LLM than search each from depths of the internet. Also,
+as there was some time since I last used containers, LLM was able to help with structure, content and simply what did what and provide examples to refresh my memory.
+LLMs were used to provide mostly examples, templates, like how to do http server with python (new for me) or individual commands or functions like how to, discovering 
+methods needed to execute system commands, etc, rather than whole code. Also, they helped in finding errors/missing parts in the solution as container did not support 
+system commands without additions to container Dockerfile which was pointed out by LLMs. However, rarely did LLMs provide complete solutions in first try, beyond very simple 
+or rudimentary templates or examples and often process was iterative, LLM provides code/template/solution which then was modified to fit solution and then if problems arose,
+LLMs were able to point out possible errors or help with redesigning’s the demands were quite basic, LLMs were able to provide components or help with solutions mostly 
+with ease, though some iteration was needed to iron out all errors. As with this and other experiences of using LLMs, they are good at providing existing and done solutions, 
+simple and limited scale code or solutions or general information and examples but often struggle with highly specific (or at least require very well specified instructions) or large scale solutions.
+
