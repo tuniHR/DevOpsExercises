@@ -1,13 +1,16 @@
 docker network ls
 NETWORK ID     NAME                DRIVER    SCOPE
-ca8627d2345b   bridge              bridge    local
-b21c5ddc70b8   devops_internal     bridge    local
+8e1c63aac905   bridge              bridge    local
+c03c5ca8393f   devops_internal     bridge    local
 0c1297bb7448   host                host      local
 9c60e64b953f   none                null      local
 968b2eedaa87   web2proj_backend    bridge    local
 94733d091ae6   web2proj_frontend   bridge    local
 
 docker container ls
-CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                    NAMES
-7a3866e338cf   devops-service1   "python service1.py"     5 minutes ago   Up 5 minutes   0.0.0.0:8199->8199/tcp   devops-service1-1
-1d5bc31e8719   devops-service2   "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes   8200/tcp                 devops-service2-1
+CONTAINER ID   IMAGE             COMMAND                  CREATED      STATUS          PORTS                     NAMES
+6197dbc39a6a   nginx:latest      "/docker-entrypoint.…"   7 days ago   Up 9 seconds    0.0.0.0:8198->80/tcp      devops-nginx-1
+6d0e169268e2   devops-service1   "python service1.py"     7 days ago   Up 10 seconds   0.0.0.0:51972->8199/tcp   devops-service1-1
+0b09e387d207   devops-service1   "python service1.py"     7 days ago   Up 10 seconds   0.0.0.0:51974->8199/tcp   devops-service1-3
+68639d903874   devops-service1   "python service1.py"     7 days ago   Up 10 seconds   0.0.0.0:51975->8199/tcp   devops-service1-2
+3048385fd974   devops-service2   "docker-entrypoint.s…"   7 days ago   Up 11 seconds   8200/tcp                  devops-service2-1

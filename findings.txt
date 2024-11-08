@@ -1,8 +1,0 @@
-While containers allow for separation of processes from host system and provides and isolated runtime environment, some things are shared 
-among all containers. Each container runs in isolation and does not have access to other containers but share some of the host systems resources.
-This is indicated that when querying processes, each container reports its own but does not report the other's processes.
-
-Containers are not full virtual machines, and rely on host kernel, which reduces overhead and makes containers more lightweight solution. 
-Containers share internal network, which can also be opened to be accessed from outside the containers by the host system. This means networking 
-resources are shared among the containers as well. Also in this exercise containers report same available diskspace and uptime, which indicates that 
-they share filesystem and system resources which are provided by the host system. 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Load Balancer</title>
+    <script>
+        async function sendRequest() {
+            try {
+                const response = await fetch('/api');
+                const data = await response.json();
+                document.getElementById("responseArea").value = JSON.stringify(data);
+            } catch (error) {
+                document.getElementById("responseArea").value = "Error fetching data.";
+            }
+        }
+
+        async function stopService() {
+            
+                try {
+                    const response = await fetch('/stop', { method: 'POST' });
+                    const result = await response.json();
+                    alert(result.message || result.error);
+                } catch (error) {
+                    alert("Error stopping services.");
+                }
+            
+        }
+    </script>
+</head>
+<body>
+    <h1>Service Load Balancer Interface</h1>
+    <button onclick="sendRequest()">REQUEST</button>
+    <textarea id="responseArea" rows="10" cols="30"></textarea>
+    <button onclick="stopService()">STOP</button>
+</body>
+</html>
