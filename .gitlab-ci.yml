@@ -1,12 +1,11 @@
 image: docker:latest
 
 services:
-  - docker:dind
+  - name: docker:latest
+    alias: docker
 
 variables:
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: unix:///var/run/docker.sock
 
 stages:
   - build
@@ -16,5 +15,3 @@ build:
   script:
     - docker --version
     - docker-compose -f docker-compose.yaml build
-
-
