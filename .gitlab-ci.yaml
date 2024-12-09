@@ -1,0 +1,11 @@
+stages:
+  - build
+
+build:
+  stage: build
+  image: docker:latest  
+  services:
+    - docker:dind  
+  script:
+    - echo "Building Docker image"
+    - docker-compose -f docker-compose.yaml build
