@@ -6,4 +6,4 @@ build:
   script:
     - docker --version
     - docker ps -a
-    - docker-compose up --build
+    - docker-compose build
