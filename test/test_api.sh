@@ -12,7 +12,7 @@ test_get_state_no_auth() {
     if [ "$status_code" -eq 200 ] && [[ "$response_body" == "INIT" || "$response_body" == "PAUSED" || "$response_body" == "RUNNING" || "$response_body" == "SHUTDOWN" ]]; then
         echo "GET /state test passed"
     else
-        echo "GET /state test failed"
+        echo "GET /state test failed with status code $status_code"
         exit 1
     fi
 }
@@ -26,7 +26,7 @@ test_put_state_no_auth() {
     if [ "$status_code" -eq 401 ]; then
         echo "PUT /state without authentication test passed"
     else
-        echo "PUT /state without authentication test failed"
+        echo "PUT /state without authentication test failed with status code $status_code"
         exit 1
     fi
 }
@@ -41,7 +41,7 @@ test_put_state_auth() {
     if [ "$status_code" -eq 200 ] && [[ "$response_body" == "State changed to RUNNING" ]]; then
         echo "PUT /state with authentication test passed"
     else
-        echo "PUT /state with authentication test failed"
+        echo "PUT /state with authentication test failed with status code $status_code"
         exit 1
     fi
 }
@@ -56,7 +56,7 @@ test_put_pause() {
     if [ "$status_code" -eq 200 ] && [[ "$response_body" == "State changed to PAUSED" ]]; then
         echo "PUT /state to PAUSED test passed"
     else
-        echo "PUT /state to PAUSED test failed"
+        echo "PUT /state to PAUSED test failed with status code $status_code"
         exit 1
     fi
 
@@ -67,7 +67,7 @@ test_put_pause() {
     if [ "$status_code" -ne 200 ]; then
         echo "GET /request after PAUSED test passed"
     else
-        echo "GET /request after PAUSED test failed"
+        echo "GET /request after PAUSED test failed with status code $status_code"
         exit 1
     fi
 
@@ -79,7 +79,7 @@ test_put_pause() {
     if [ "$status_code" -eq 200 ]; then
         echo "State changed back to RUNNING"
     else
-        echo "Failed to change state back to RUNNING"
+        echo "Failed to change state back to RUNNING with status code $status_code"
         exit 1
     fi
 }
@@ -93,7 +93,7 @@ test_get_request() {
     if [ "$status_code" -eq 200 ]; then
         echo "GET /request test passed"
     else
-        echo "GET /request test failed"
+        echo "GET /request test failed with status code $status_code"
         exit 1
     fi
 }
@@ -117,7 +117,7 @@ test_get_run_log() {
     if [ "$status_code" -eq 200 ] && [[ "$response_body" == *"RUNNING"* ]]; then
         echo "GET /run-log test passed"
     else
-        echo "GET /run-log test failed"
+        echo "GET /run-log test failed with status code $status_code"
         exit 1
     fi
 }
