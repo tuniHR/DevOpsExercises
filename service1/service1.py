@@ -94,17 +94,12 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
             # Ensure state transitions only happen if the state is different
             current_state = get_current_state()
-            if new_state == current_state:
-                self.send_response(200)
-                self.send_header('Content-type', 'text/plain')
-                self.end_headers()
-                response = f"State is already {new_state}"
-                self.wfile.write(response.encode('utf-8'))
-                return
+            if new_state != current_state:
+                # Log the state change before updating it
+                log_state_change(current_state, new_state)
+                update_status(new_state)
 
-            # Log the state change before updating it
-            log_state_change(current_state, new_state)
-            update_status(new_state)
+            
 
             # Update the current state
             current_state = new_state
