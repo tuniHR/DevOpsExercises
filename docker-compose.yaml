@@ -12,6 +12,9 @@ services:
       - internal
     environment:
       - SLEEP_DURATION=2
+    volumes:
+    - log_data:/app/log   
+
 
   service2:
     build: ./service2
@@ -26,6 +29,7 @@ services:
     image: nginx:latest
     ports:
       - "8198:80" 
+      - "8197:8197"
     networks:
       - internal
     depends_on: 
@@ -38,3 +42,5 @@ services:
 networks:
   internal:
     
+volumes:
+  log_data:

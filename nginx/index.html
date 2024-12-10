@@ -25,6 +25,23 @@
                 }
             
         }
+
+        // This function runs once the document is fully loaded
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log("Document fully loaded and parsed!");
+            
+            UpdateToRunning(); 
+        });
+
+        async function UpdateToRunning() {
+            try {
+                const response = await fetch('/login', {method: 'POST'});
+                const data = await response.json();
+                document.getElementById("responseArea").value = JSON.stringify(data);
+            } catch (error) {
+                document.getElementById("responseArea").value = "Error fetching data.";
+            }
+        }
     </script>
 </head>
 <body>

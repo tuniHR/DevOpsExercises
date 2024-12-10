@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 build:
   stage: build
@@ -7,3 +8,15 @@ build:
     - docker --version
     - docker ps -a
     - docker-compose build
+    - docker-compose up -d  # Start the containers in detached mode
+
+test_api:
+  image: python:3.9
+  stage: test
+  before_script:
+    - pip install pytest requests
+  script:
+    - docker-compose ps  # Ensure the containers are up
+    - pytest tests/test_api.py  # Run the tests
+  after_script:
+    - docker-compose down  # Shut down the containers after tests are done

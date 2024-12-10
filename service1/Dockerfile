@@ -8,5 +8,7 @@ RUN apt-get update && apt-get install -y procps coreutils && rm -rf /var/lib/apt
 RUN pip install requests
 
 COPY service1.py /app/
+COPY log-file.txt /app/log-file.txt
+COPY status.txt /app/log/status.txt  
 
 CMD ["python", "service1.py"]
