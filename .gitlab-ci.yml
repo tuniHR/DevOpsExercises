@@ -20,3 +20,12 @@ test_api:
   after_script:
     # Shut down the containers after tests are done
     - docker-compose down
+
+deploy:
+stage: deploy
+  script:
+    # Deploy to local machine (just bring up the containers again)
+    - echo "Deploying to local machine..."
+    - docker-compose up -d  # Start the containers in detached mode
+  only:
+    - main
