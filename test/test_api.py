@@ -23,7 +23,30 @@ def test_put_state_auth():
         auth=HTTPBasicAuth("admin", "admin")
     )
     assert response.status_code == 200
+    assert response.text == "State changed to RUNNING"
     
+
+def test_put_pause():
+        
+    response = requests.put(
+        f"{BASE_URL}/state", 
+        data="PAUSED", 
+        auth=HTTPBasicAuth("admin", "admin")
+    )
+    assert response.status_code == 200
+    assert response.text == "State changed to PAUSED"
+
+    responseBad = requests.get(f"{BASE_URL}/request")
+    assert responseBad.status_code != 200
+
+    # put back to running state
+    response = requests.put(
+        f"{BASE_URL}/state", 
+        data="RUNNING", 
+        auth=HTTPBasicAuth("admin", "admin")
+    )
+
+
 
 # Test for GET /request
 def test_get_request():
@@ -33,6 +56,18 @@ def test_get_request():
 
 # Test for GET /run-log
 def test_get_run_log():
+
+    response = requests.put(
+        f"{BASE_URL}/state", 
+        data="INIT", 
+        auth=HTTPBasicAuth("admin", "admin")
+    )
+    response = requests.put(
+        f"{BASE_URL}/state", 
+        data="RUNNING", 
+        auth=HTTPBasicAuth("admin", "admin")
+    )
+
     response = requests.get(f"{BASE_URL}/run-log")
     assert response.status_code == 200
-    
+    assert "RUNNING" in response.text
