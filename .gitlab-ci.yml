@@ -16,7 +16,7 @@ test_api:
     # Ensure the containers are up
     - docker-compose ps
     # Run the bash script to test the API
-    - bash test_api.sh
+    - bash test/test_api.sh
   after_script:
     # Shut down the containers after tests are done
     - docker-compose down
