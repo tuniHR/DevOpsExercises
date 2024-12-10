@@ -15,6 +15,7 @@ test_get_state_no_auth() {
         echo "GET /state test failed with status code $status_code"
         exit 1
     fi
+    sleep 1
 }
 
 # Test PUT /state without authentication
@@ -29,6 +30,7 @@ test_put_state_no_auth() {
         echo "PUT /state without authentication test failed with status code $status_code"
         exit 1
     fi
+    sleep 1
 }
 
 # Test PUT /state with authentication (admin:admin)
@@ -44,6 +46,7 @@ test_put_state_auth() {
         echo "PUT /state with authentication test failed with status code $status_code"
         exit 1
     fi
+    sleep 1
 }
 
 # Test PUT /state to PAUSED and check if /request is not accessible
@@ -59,6 +62,7 @@ test_put_pause() {
         echo "PUT /state to PAUSED test failed with status code $status_code"
         exit 1
     fi
+    sleep 1
 
     echo "Testing GET /request after PAUSED"
     response=$(curl -s -w "%{http_code}" -o response.txt "$BASE_URL/request")
@@ -71,6 +75,8 @@ test_put_pause() {
         exit 1
     fi
 
+    sleep 1
+
     # Put back to running state
     echo "Putting back to RUNNING state"
     response=$(curl -s -w "%{http_code}" -o response.txt -X PUT -d "RUNNING" -u "admin:admin" "$BASE_URL/state")
@@ -82,6 +88,7 @@ test_put_pause() {
         echo "Failed to change state back to RUNNING with status code $status_code"
         exit 1
     fi
+    sleep 1
 }
 
 # Test GET /request
@@ -96,6 +103,8 @@ test_get_request() {
         echo "GET /request test failed with status code $status_code"
         exit 1
     fi
+    sleep 1
+    
 }
 
 # Test GET /run-log
@@ -106,9 +115,11 @@ test_get_run_log() {
     response=$(curl -s -w "%{http_code}" -o response.txt -X PUT -d "INIT" -u "admin:admin" "$BASE_URL/state")
     status_code="${response: -3}"
     
+    sleep 1
     response=$(curl -s -w "%{http_code}" -o response.txt -X PUT -d "RUNNING" -u "admin:admin" "$BASE_URL/state")
     status_code="${response: -3}"
 
+    sleep 1
     # Now test the /run-log endpoint
     response=$(curl -s -w "%{http_code}" -o response.txt "$BASE_URL/run-log")
     status_code="${response: -3}"
@@ -120,6 +131,7 @@ test_get_run_log() {
         echo "GET /run-log test failed with status code $status_code"
         exit 1
     fi
+    sleep 1
 }
 
 # Run all tests
