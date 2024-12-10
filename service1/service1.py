@@ -42,6 +42,10 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         current_state = get_current_state()
 
         if current_state == "PAUSED":
+            self.send_response(503)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write("".encode('utf-8'))
             return
         # Handle GET requests for state and logs
         if self.path == "/state":
@@ -127,6 +131,10 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         current_state = get_current_state()
 
         if current_state == "PAUSED":
+            self.send_response(503)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write("".encode('utf-8'))
             return
 
         if self.path == "/login":
