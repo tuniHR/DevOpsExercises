@@ -37,9 +37,8 @@
             try {
                 const response = await fetch('/login', {method: 'POST'});
                 const data = await response.json();
-                document.getElementById("responseArea").value = JSON.stringify(data);
             } catch (error) {
-                document.getElementById("responseArea").value = "Error fetching data.";
+                
             }
         }
     </script>

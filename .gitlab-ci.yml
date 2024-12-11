@@ -8,7 +8,7 @@ build:
     - docker --version
     - docker ps -a
     - docker-compose build
-    - docker-compose up -d  # Start the containers in detached mode
+    - docker-compose up -d  # Start the containers for test
 
 test_api:
   stage: test
@@ -26,6 +26,7 @@ stage: deploy
   script:
     # Deploy to local machine (just bring up the containers again)
     - echo "Deploying to local machine..."
-    - docker-compose up -d  # Start the containers in detached mode
+    - docker-compose up -d  
   only:
+    # deploy only on main branch update, assuming that others may not be ready to be deployed
     - main

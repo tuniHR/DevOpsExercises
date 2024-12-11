@@ -9,11 +9,11 @@ from datetime import datetime
 PORT = 8199
 
 
-# Log file location
+# Log and status file location
 LOG_FILE = "/app/log/log-file.txt"
 STATUS_FILE = "/app/log/status.txt" 
 
-
+# helper functions
 def log_state_change(old_state, new_state):
     timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
     log_entry = f"{timestamp}: {old_state}->{new_state}\n"
@@ -37,8 +37,9 @@ with open(LOG_FILE, 'w') as f:
 
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
-
+    # GET requests
     def do_GET(self):
+        # read state from status file
         current_state = get_current_state()
 
         if current_state == "PAUSED":
@@ -47,17 +48,14 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write("".encode('utf-8'))
             return
-        # Handle GET requests for state and logs
+        
         if self.path == "/state":
-            # Return the current state as plain text
-            
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(current_state.encode('utf-8'))
 
         elif self.path == "/run-log":
-            # Return the contents of the log file as plain text
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
@@ -70,7 +68,6 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write("No logs available yet.".encode('utf-8'))
 
         elif self.path == "/request":
-            # Example: Info about Service1 and Service2
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
@@ -79,7 +76,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 "Service2": self.get_service2_info()
             }
             self.wfile.write(json.dumps(response).encode('utf-8'))
-
+    
+    # PUT requests
     def do_PUT(self):
         if self.path == "/state":
             # Parse the payload and set the state
@@ -87,7 +85,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             body = self.rfile.read(content_length)
             new_state = body.decode('utf-8').strip()
 
-            # Validate new state
+            
             if new_state not in ['INIT', 'PAUSED', 'RUNNING', 'SHUTDOWN']:
                 self.send_response(400)
                 self.send_header('Content-type', 'text/plain')
@@ -96,21 +94,15 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(response.encode('utf-8'))
                 return
 
-            # Ensure state transitions only happen if the state is different
             current_state = get_current_state()
             if new_state != current_state:
-                # Log the state change before updating it
+                
                 log_state_change(current_state, new_state)
                 update_status(new_state)
 
-            
-
-            # Update the current state
             current_state = new_state
             
-            # Handle actions based on the new state
             if current_state == 'SHUTDOWN':
-                # Trigger shutdown of containers (example, you may handle differently)
                 self.shutdown_containers()
             
             self.send_response(200)
@@ -127,6 +119,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             response = "Method Not Allowed"
             self.wfile.write(response.encode('utf-8'))
 
+    # POST requests
     def do_POST(self):
         current_state = get_current_state()
 
@@ -174,7 +167,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             return {"error": str(e)}
 
     def shutdown_containers(self):
-        # Example: Request to Service2 to stop containers
+        # Request to Service2 to stop containers
         try:
             response = requests.post('http://service2:8200/stop')
             return response.json()
