@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - deploy
 
 build:
   stage: build
@@ -22,7 +23,7 @@ test_api:
     - docker-compose down
 
 deploy:
-stage: deploy
+  stage: deploy
   script:
     # Deploy to local machine (just bring up the containers again)
     - echo "Deploying to local machine..."
